@@ -9,25 +9,34 @@ int main()
     cout << "Here you can get in line - just input your surname or type Next for call next in line" << endl;
     cout << "If you want to finish work - input finish" << endl;
     map<string, int> queue_map;
-    // int count_queue = -1;
-    bool work_flag = true;
+    bool empty_queue = true;
     while (true) {
-        cout << "Type your surname or next " << endl;
+        if (empty_queue) {
+            cout << "Type your surname " << endl;
+        }
+        else {
+            cout << "Type your surname or next " << endl;
+        }
         string input;
         cin >> input;
         if (input == "finish" || input == "FINISH") {
             cout << "The programme has finished running!";
             break;
         }
-        else if (input == "next" || input == "NEXT") {
+        else if (input == "next" || input == "NEXT" || input == "Next") {
             map<string, int>::iterator it = queue_map.begin();
-            string queue_one = it->first;
-            cout << queue_one << endl;
-            if (queue_map[queue_one] > 0) {
-                queue_map[queue_one]--;
-            } 
+            if (queue_map.begin() == queue_map.end()) {
+                cout << "The line is already empty!!!" << endl;
+                empty_queue = true;
+            }
             else {
-                queue_map.erase(queue_one);
+                cout << it->first << endl;
+                if (queue_map[it->first] > 0) {
+                    queue_map[it->first]--;
+                } 
+                else {
+                    queue_map.erase(it->first);
+                }
             }
         }
         else {
@@ -38,6 +47,7 @@ int main()
                 pair<string, int> oPair(input, 0);
                 queue_map.insert(oPair);
             }
+            empty_queue = false;
         }
    }
 }
